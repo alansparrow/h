@@ -1,0 +1,12 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+  char str_a[20];
+
+  strcpy(str_a, "Hello, World!\n");
+  print(str_a);
+
+  return 0;
+}

@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+void f0()
+{
+  printf("f0\n");
+}
+
+void f1()
+{
+  f0();
+  printf("f1\n");
+}
+
+void f2()
+{
+  f1();
+  printf("f2\n");
+}
+
+void f3()
+{
+  f2();
+  printf("f3\n");
+}
+
+int main()
+{
+  f3();
+  return 0;
+}
