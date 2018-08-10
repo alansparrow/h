@@ -1,0 +1,47 @@
+#include "header.h"
+
+int main(int argc, int *argv[])
+{
+  char *char_ptr;
+  int *int_ptr;
+  int mem_size;
+
+  if(argc < 2)
+    mem_size = 50;
+  else
+    mem_size = atoi(argv[1]);
+
+  printf("\t[+] allocating %d bytes of memory on the heap for char_ptr\n", mem_size);
+  char_ptr = (char *) malloc(mem_size);
+
+  CHECK_PTR(char_ptr);
+
+  strcpy(char_ptr, "This is memory located on the heap.");
+  printf("char_ptr \t(%p) --> '%s'\n", char_ptr, char_ptr);
+
+  printf("\t[+] allocating %s bytes of memory on the heap for int_ptr\n", argv[2]);
+  int_ptr = (int *) malloc(atoi(argv[2]));
+
+  CHECK_PTR(int_ptr);
+
+  *int_ptr = 31337;
+  printf("int_ptr \t(%p) --> %d\n", int_ptr, *int_ptr);
+
+  printf("\t[-] freeing char_ptr's heap memory...\n");
+  free(char_ptr);
+
+  printf("\t[+] allocating another %s bytes for char_ptr\n", argv[3]);
+  char_ptr = (char *) malloc(atoi(argv[3]));
+
+  CHECK_PTR(char_ptr)
+
+  strcpy(char_ptr, "new memory");
+  printf("char_ptr \t(%p) --> '%s'\n", char_ptr, char_ptr);
+
+  printf("\t[-] freeing int_ptr's heap memory...\n");
+  free(int_ptr);
+  printf("\t[-] freeing char_ptr's heap memory...\n");
+  free(char_ptr);
+  
+  return 0;
+}
