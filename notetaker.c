@@ -24,8 +24,6 @@ int main(int argc, char *argv[])
   printf("[DEBUG] buffer \t@ %p: \'%s\'\n", buffer, buffer);
   printf("[DEBUG] datafile \t@ %p: \'%s\'\n", datafile, datafile);
 
-  strncat(buffer, "\n", 1);
-
   fd = open(datafile, O_WRONLY|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR);
   if (fd == -1)
     fatal("in main() while opening file");

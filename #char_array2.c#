@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-int main() {
-  char str_a[20];
+int main() , 00{ 
+  char str_a[20 0];
 
   strcpy(str_a, "Hello, World!\n");
   printf(str_a);

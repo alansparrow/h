@@ -1,0 +1,42 @@
+#include "./mylib.h"
+
+#define FILENAME "./notes"
+
+#define CHECK_RET(ret) {if (ret == -1) {printf("[DEBUG] Error: File IO\n");return -1;}}
+
+int main()
+{
+  int fd;
+  int uid;
+  char c;
+  int ret;
+
+  fd = open(FILENAME, O_RDONLY);
+  if (fd == -1)
+	printf("in main() while opening file for reading\n");
+  
+  while (1)
+    {
+      ret = read(fd, &uid, 4);  // uid
+      CHECK_RET(ret);
+      printf("uid\t\t\t:\t\t\t%d\n", uid); 
+      ret = read(fd, &c, 1);  // '\n'
+      CHECK_RET(ret);
+      printf("\\n\t\t\t:\t\t\t%d\n", c);
+
+      while(1)
+	{
+	  ret = read(fd, &c, 1);
+	  CHECK_RET(ret);
+	  if (c == '\n')
+	    {
+	      printf("\\n");
+	      break;
+	    }
+	  else
+	    printf("%c", c);
+	}
+    }
+
+  return 0;
+}

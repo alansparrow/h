@@ -3,6 +3,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 #define CHECK_PTR(ptr) { if (ptr == NULL) { fprintf(stderr, "Error: could not allocate heap memory.\n"); exit(-1); } }
 

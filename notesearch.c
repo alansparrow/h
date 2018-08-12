@@ -8,7 +8,7 @@ int search_note(char *, char *);
 
 int main(int argc, char *argv[])
 {
-  int userid, printing = 1, fd;
+  int userid, usereid, printing = 1, fd;
   char searchstring[100];
 
   if (argc > 1)
@@ -17,6 +17,10 @@ int main(int argc, char *argv[])
     searchstring[0] = 0;
 
   userid = getuid();
+  usereid = geteuid();
+
+  //printf("[DEBUG] uid:\t\t%d\n\teuid:\t\t%d\n", userid, usereid);
+  
   fd = open(FILENAME, O_RDONLY);
   if (fd == -1)
     fatal("in main() while opening file for reading");
@@ -41,7 +45,8 @@ int print_notes(int fd, int uid, char *searchstring)
   if (note_length == -1)
     return 0;
 
-  read(fd, note_buffer, note_length);  // read note data
+  int read_size = read(fd, note_buffer, note_length);  // read note data
+
   note_buffer[note_length] = 0;  // terminate the string
 
   if (search_note(note_buffer, searchstring))  // if searchstring found, print the note
@@ -62,10 +67,14 @@ int find_user_note(int fd, int user_uid)
 
   while (note_uid != user_uid)  // loop until a note for user_uid is found
     {
+      
       if (read(fd, &note_uid, 4) != 4)  // read the uid data
 	return -1;  // if 4 bytes aren't read, return end of file code
+      //printf("[DEBUG] note_uid (%d)\n", note_uid);
+      
       if (read(fd, &byte, 1) != 1)  // read the newline separator
 	return -1;
+      //printf("[DEBUG] byte (%d)\n", user_uid);
 
       byte = length = 0;
       while (byte != '\n')  // figure out how many bytes to the end of file
@@ -77,7 +86,7 @@ int find_user_note(int fd, int user_uid)
     }
 
   lseek(fd, length * -1, SEEK_CUR);  // rewind file reading by length bytes
-
+  
   printf("[DEBUG] found a %d byte note for user id %d\n", length, note_uid);
   return length;
 

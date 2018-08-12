@@ -1,0 +1,53 @@
+#include "./mylib.h"
+
+#define FILENAME "./notes"
+
+#define CHECK_RET(ret) {if (ret == -1) {printf("[DEBUG] Error: File IO\n");return -1;}}
+
+int main()
+{
+int fd;
+int uid;
+char c;
+int ret;
+
+fd = open(FILENAME, O_RDONLY);
+if (fd == -1)
+  printf("in main() while opening file for reading\n");
+
+while (1)
+  {
+ret = read(fd, &uid, 4);  // uid
+CHECK_RET(ret);
+printf("uid\t\t\t:\t\t\t%d\n", uid);
+ret = read(fd, &c, 1);  // '\n'
+CHECK_RET(ret);
+printf("\\n\t\t\t:\t\t\t%d\n", c);
+
+while(1)
+  {
+ret = read(fd, &c, 1);
+CHECK_RET(ret);
+if (c == '\n')
+  {
+printf("\\n");
+break;
+}
+ else
+   printf("%c", c);
+}
+}
+
+return 0;
+}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+
+#define CHECK_PTR(ptr) { if (ptr == NULL) { fprintf(stderr, "Error: could not allocate heap memory.\n"); exit(-1); } }
+
+void *ec_malloc(unsigned int);
+void fatal(char *);
+void binary_print(unsigned int);
